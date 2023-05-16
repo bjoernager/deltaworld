@@ -3,3 +3,8 @@
 * Add gitignore;
 * Add cargo configuration file;
 * Add changelog;
+
+* Put main loop in its own method;
+* Add copyright notice to start print;
+* Fix spaces;
+* Add goodbye message;

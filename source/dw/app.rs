@@ -16,3 +16,4 @@ pub struct App {
 
 pub mod ini;
 pub mod inigfx;
+pub mod lop;
