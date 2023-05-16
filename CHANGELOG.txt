@@ -1,0 +1,5 @@
+# 0.0.0
+
+* Add gitignore;
+* Add cargo configuration file;
+* Add changelog;

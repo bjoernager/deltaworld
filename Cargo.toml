@@ -1,0 +1,17 @@
+[package]
+name = "deltaworld"
+version = "0.0.0"
+edition = "2021"
+
+[[bin]]
+name = "dw"
+path = "source/ini.rs"
+
+[profile.release]
+lto = true
+
+[dependencies.gl]
+version = "*"
+
+[dependencies.glfw]
+version = "*"
