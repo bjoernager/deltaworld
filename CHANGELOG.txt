@@ -1,3 +1,15 @@
+# 0.1.0
+
+* Bump minor version;
+* Add basic vertex and fragment shaders;
+* Update dependencies;
+* Pad values in Cargo configuration file;
+* Depend on libc crate;
+* Set signal handlers;
+* Specify versions of dependencies;
+* Add shader program compiler routine;
+* Add Python script for validating shaders;
+
 # 0.0.0
 
 * Add gitignore;

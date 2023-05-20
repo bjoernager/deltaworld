@@ -1,7 +1,6 @@
 // Copyright 2023 Gabriel Jensen.
 
-use crate::dw::app::App;
-use crate::dw::app::Gfx;
+use crate::dw::app::{App,Gfx};
 
 extern crate gl;
 extern crate glfw;
@@ -27,10 +26,13 @@ impl App {
 		eprintln!("initialising opengl");
 		gl::load_with(|nam| glfw.get_proc_address_raw(nam) as *const c_void);
 
+		let shdprg = self.getshdprg();
+
 		return Gfx {
-			glfw: glfw,
-			win:  win,
-			evt:  evt,
+			evt:   evt,
+			glfw:  glfw,
+			shdprg:shdprg,
+			win:   win,
 		};
 	}
 }

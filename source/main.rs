@@ -7,7 +7,7 @@ use crate::dw::app::App;
 use std::process::exit;
 
 fn main() {
-	let mut app = App {};
+	let mut app = App::new();
 
 	exit(app.ini() as i32);
 }

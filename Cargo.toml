@@ -1,17 +1,16 @@
 [package]
-name = "deltaworld"
-version = "0.0.0"
+name    = "deltaworld"
+version = "0.1.0"
 edition = "2021"
 
 [[bin]]
 name = "dw"
-path = "source/ini.rs"
+path = "source/main.rs"
 
 [profile.release]
 lto = true
 
-[dependencies.gl]
-version = "*"
-
-[dependencies.glfw]
-version = "*"
+[dependencies]
+gl   = "0.14.0"
+glfw = "0.51.0"
+libc = "0.2.144"
