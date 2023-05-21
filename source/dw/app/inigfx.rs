@@ -7,20 +7,19 @@ extern crate gl;
 extern crate glfw;
 
 use gl::load_with;
-use glfw::{Context, SwapInterval};
+use glfw::{Context, FAIL_ON_ERRORS, init, SwapInterval, WindowHint};
 use std::ffi::c_void;
 
 impl App {
 	pub fn inigfx(&mut self) -> Gfx {
 		eprintln!("initialising glfw");
-		let mut glfw = glfw::init(glfw::FAIL_ON_ERRORS).unwrap();
+		let mut glfw = init(FAIL_ON_ERRORS).unwrap();
 
 		eprintln!("creating window");
-		glfw.window_hint(glfw::WindowHint::ContextVersion(0x3, 0x2));
-		glfw.window_hint(glfw::WindowHint::OpenGlProfile(glfw::OpenGlProfileHint::Core));
-		glfw.window_hint(glfw::WindowHint::Samples(Some(0x8)));
+		glfw.window_hint(WindowHint::ContextVersion(0x3, 0x2));
+		glfw.window_hint(WindowHint::OpenGlProfile(glfw::OpenGlProfileHint::Core));
+		glfw.window_hint(WindowHint::Samples(Some(0x8)));
 
-		
 		let (mut win, evt) = glfw.create_window(0x400, 0x300, format!("DeltaWorld {}.{}.{}", VER.maj, VER.min, VER.pat).as_str(), glfw::WindowMode::Windowed).expect("unable to create window");
 		win.set_key_polling(true);
 		win.make_current();

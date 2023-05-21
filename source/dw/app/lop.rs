@@ -51,7 +51,7 @@ impl App {
 			gfx.glfw.poll_events();
 
 			unsafe {
-				ClearColor(0.25, 0.0, 0.0, 1.0);
+				ClearColor(0.107, 0.690, 0.939, 1.0);
 				Clear(COLOR_BUFFER_BIT);
 
 				BindBuffer(ARRAY_BUFFER, vbo);
