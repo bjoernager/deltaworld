@@ -3,6 +3,12 @@
 * Embed shaders;
 * Update shader validation script;
 
+* Update code style;
+* Draw simple triangle;
+* Bump minor version;
+* Update window title;
+* Update release tagging;
+
 # 0.1.0
 
 * Bump minor version;

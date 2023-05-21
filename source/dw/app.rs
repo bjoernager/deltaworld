@@ -3,12 +3,12 @@
 extern crate glfw;
 
 use gl::types::GLuint;
-use glfw::{Glfw,Window,WindowEvent};
+use glfw::{Glfw, Window, WindowEvent};
 use std::sync::atomic::AtomicBool;
 use std::sync::mpsc::Receiver;
 
 pub struct Gfx {
-	evt:    Receiver<(f64,WindowEvent)>,
+	evt:    Receiver<(f64, WindowEvent)>,
 	glfw:   Glfw,
 	shdprg: GLuint,
 	win:    Window,

@@ -8,7 +8,7 @@ pub struct VerTyp {
 
 pub const VER: VerTyp = VerTyp {
 	maj: 0x0,
-	min: 0x1,
+	min: 0x2,
 	pat: 0x0,
 };
 

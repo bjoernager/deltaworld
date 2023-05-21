@@ -1,14 +1,14 @@
 #!/usr/bin/env python
 
-from subprocess import PIPE,run
+from subprocess import PIPE, run
 
-def validate(path:str):
-	print("validating \"",path,"\"... ",end='',sep='')
+def validate(path: str):
+	print("validating \"", path, "\"... ", end='', sep='')
 
 	path  = "source/dw/app/shader/" + path + ".glsl"
 	program = "glslangValidator"
 
-	status = run([program,path],stdout=PIPE)
+	status = run([program, path], stdout=PIPE)
 
 	result = status.returncode
 	if result != 0x0:
