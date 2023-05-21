@@ -4,39 +4,50 @@ use crate::dw::{app::App,datpth};
 
 extern crate gl;
 
-use gl::{AttachShader,COMPILE_STATUS,CompileShader,CreateProgram,CreateShader,DeleteShader,FALSE,FRAGMENT_SHADER,GetShaderiv,LinkProgram,ShaderSource,VERTEX_SHADER};
-use gl::types::{GLchar,GLenum,GLint,GLuint};
-use std::fs::read;
+use gl::{AttachShader,COMPILE_STATUS,CompileShader,COMPUTE_SHADER,CreateProgram,CreateShader,DeleteShader,FALSE,FRAGMENT_SHADER,GEOMETRY_SHADER,GetShaderInfoLog,GetShaderiv,INFO_LOG_LENGTH,LinkProgram,ShaderSource,TESS_CONTROL_SHADER,TESS_EVALUATION_SHADER,VERTEX_SHADER};
+use gl::types::{GLchar,GLenum,GLint,GLsizei,GLuint};
+use libc::{STDERR_FILENO,write};
+use std::alloc::{alloc,dealloc,Layout};
+use std::ffi::c_void;
 use std::ptr::{addr_of,null};
 
 impl App {
 	pub fn getshdprg(&mut self) -> GLuint {
 		eprintln!("compiling shaders");
 
-		let cmpshd = |nam: & str,typ:GLenum| -> GLuint {
+		let cmpshd = |nam: & str| -> GLuint {
+			let extoff = nam.find('.').expect("unable to find file extension seperator")+0x1;
+			let filext = &nam[extoff..];
+			let typ = match filext {
+				"comp" => COMPUTE_SHADER,
+				"frag" => FRAGMENT_SHADER,
+				"geom" => GEOMETRY_SHADER,
+				"tesc" => TESS_CONTROL_SHADER,
+				"tese" => TESS_EVALUATION_SHADER,
+				"vert" => VERTEX_SHADER,
+				_      => panic!("invalid shader file extension \"{}\"",filext),
+			};
+
 			let typstr = match typ {
 				FRAGMENT_SHADER => "fragment",
 				VERTEX_SHADER   => "vertex",
-				_               => panic!("invalid shader type {}",typ),
+				_               => unreachable!(),
 			};
 
 			let filext = match typ {
 				FRAGMENT_SHADER => "frag",
 				VERTEX_SHADER   => "vert",
-				_               => panic!("invalid shader type {}",typ),
+				_               => unreachable!(),
 			};
 
-			let mut pth = String::new();
-			pth.push_str(datpth());
-			pth.push_str("/shader/");
-			pth.push_str(nam);
-			pth.push(    '.');
-			pth.push_str(filext);
-			pth.push_str(".glsl");
+			eprintln!("compiling {} shader \"{}\"",typstr,nam);
 
-			eprintln!("compiling {} shader at \"{}\"",typstr,pth);
-
-			let src = read(pth).expect("unable to read shader at");
+			//let src = read(pth).expect("unable to read shader at");
+			let src = match nam {
+				"main.frag" => include_bytes!("shader/main.frag.glsl").to_vec(),
+				"main.vert" => include_bytes!("shader/main.vert.glsl").to_vec(),
+				_           => panic!("shader not found"),
+			};
 
 			unsafe {
 				let shd    = CreateShader(typ);
@@ -47,14 +58,30 @@ impl App {
 
 				let mut sts:GLint = 0x0;
 				GetShaderiv(shd,COMPILE_STATUS,&mut sts);
-				if sts == FALSE as GLint {panic!("unable to compile shader");}
+				if sts == FALSE as GLint {
+					let mut len: GLint = 0x0;
+					GetShaderiv(shd,INFO_LOG_LENGTH,&mut len);
+					
+					let lay = Layout::from_size_align(len as usize,0x1).unwrap();
+
+					let log = alloc(lay);
+					GetShaderInfoLog(shd,len,null::<GLsizei>() as *mut GLsizei,log as *mut GLchar);
+
+					eprint!("unable able to compile shader:\n");
+					write(STDERR_FILENO,log as *const c_void,len as usize);
+					eprintln!();
+
+					dealloc(log,lay);
+
+					panic!("unable to compile shader");
+				}
 
 				return shd;
 			}
 		};
 
-		let frgshd = cmpshd("main",FRAGMENT_SHADER);
-		let vtxshd = cmpshd("main",VERTEX_SHADER);
+		let frgshd = cmpshd("main.frag");
+		let vtxshd = cmpshd("main.vert");
 		
 		unsafe {
 			let prg = CreateProgram();

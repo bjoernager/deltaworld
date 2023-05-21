@@ -5,10 +5,10 @@ from subprocess import PIPE,run
 def validate(path:str):
 	print("validating \"",path,"\"... ",end='',sep='')
 
-	path  = "shader/" + path + ".glsl"
-	prog = "glslangValidator"
+	path  = "source/dw/app/shader/" + path + ".glsl"
+	program = "glslangValidator"
 
-	status = run([prog,path],stdout=PIPE)
+	status = run([program,path],stdout=PIPE)
 
 	result = status.returncode
 	if result != 0x0:
