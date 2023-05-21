@@ -17,6 +17,8 @@ impl App {
 
 		let cod = self.lop(&mut gfx);
 
+		self.end(&mut gfx);
+
 		println!("goodbye");
 		eprintln!("exiting with code {}", cod);
 		return cod;

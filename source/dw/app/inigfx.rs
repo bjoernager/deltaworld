@@ -22,9 +22,9 @@ impl App {
 
 		let (mut win, evt) = glfw.create_window(0x400, 0x300, format!("DeltaWorld {}.{}.{}", VER.maj, VER.min, VER.pat).as_str(), glfw::WindowMode::Windowed).expect("unable to create window");
 		win.set_key_polling(true);
-		win.make_current();
 
 		eprintln!("initialising opengl");
+		win.make_current();
 		load_with(|nam| glfw.get_proc_address_raw(nam) as *const c_void);
 
 		glfw.set_swap_interval(SwapInterval::Sync(0x1));

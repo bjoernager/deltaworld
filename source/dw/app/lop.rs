@@ -6,7 +6,7 @@ use crate::dw::app::Gfx;
 extern crate gl;
 extern crate glfw;
 
-use gl::{ARRAY_BUFFER, BindBuffer, BufferData, BindVertexArray, BufferSubData, Clear, ClearColor, COLOR_BUFFER_BIT, DrawArrays, EnableVertexAttribArray, FALSE, FLOAT, GenBuffers, GenVertexArrays, STREAM_DRAW, TRIANGLES, UseProgram, VertexAttribPointer};
+use gl::{ARRAY_BUFFER, BindBuffer, BufferData, BindVertexArray, BufferSubData, Clear, ClearColor, COLOR_BUFFER_BIT, DrawArrays, EnableVertexAttribArray, FALSE, FLOAT, GenBuffers, GenVertexArrays, STREAM_DRAW, TRIANGLES, UseProgram, VertexAttribPointer, Viewport};
 use gl::types::{GLfloat, GLsizeiptr, GLuint};
 use glfw::Context;
 use std::ffi::c_void;
@@ -19,9 +19,9 @@ impl App {
 		eprintln!("entering main loop");
 
 		let vtx: [GLfloat; 0x9] = [
-			-1.0, 1.0, 0.0,
-			 1.0, 1.0, 0.0,
-			 0.0, 0.0, 0.0,
+			-0.707,-0.707, -0.707,
+			-0.707, 0.707, -0.707,
+			 0.707,-0.707, -0.707,
 		];
 
 		let mut vao: GLuint = 0x0;
@@ -51,6 +51,9 @@ impl App {
 			gfx.glfw.poll_events();
 
 			unsafe {
+				let (frmwdh, frmhgh) = gfx.win.get_framebuffer_size();
+				Viewport(0x0,0x0,frmwdh,frmhgh);
+
 				ClearColor(0.107, 0.690, 0.939, 1.0);
 				Clear(COLOR_BUFFER_BIT);
 

@@ -20,6 +20,7 @@ pub struct App {
 static mut GOTINT: AtomicBool = AtomicBool::new(false);
 
 pub mod getshdprg;
+pub mod end;
 pub mod ini;
 pub mod inigfx;
 pub mod inisig;
