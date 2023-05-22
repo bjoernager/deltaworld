@@ -1,12 +1,12 @@
 // Copyright 2023 Gabriel Jensen.
 
-pub struct VerTyp {
-	pub maj: u64,
-	pub min: u64,
-	pub pat: u64,
+pub struct Vertyp<T> {
+	pub maj: T,
+	pub min: T,
+	pub pat: T,
 }
 
-pub const VER: VerTyp = VerTyp {
+pub const VER: Vertyp::<u64> = Vertyp::<u64> {
 	maj: 0x0,
 	min: 0x3,
 	pat: 0x0,

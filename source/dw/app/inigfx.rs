@@ -6,7 +6,8 @@ use crate::dw::app::{App, Gfx};
 extern crate gl;
 extern crate glfw;
 
-use gl::load_with;
+use gl::{GetUniformLocation, load_with};
+use gl::types::{GLchar, GLint};
 use glfw::{Context, FAIL_ON_ERRORS, init, SwapInterval, WindowHint};
 use std::ffi::c_void;
 
@@ -31,11 +32,16 @@ impl App {
 
 		let shdprg = self.getshdprg();
 
+		let uni: GLint = unsafe {
+			GetUniformLocation(shdprg, b"scl\x00".as_ptr() as *const GLchar)
+		};
+
 		return Gfx {
-			evt:   evt,
-			glfw:  glfw,
-			shdprg:shdprg,
-			win:   win,
+			evt:    evt,
+			glfw:   glfw,
+			shdprg: shdprg,
+			uni:    uni,
+			win:    win,
 		};
 	}
 }

@@ -6,7 +6,7 @@ use crate::dw::app::Gfx;
 extern crate gl;
 extern crate glfw;
 
-use gl::{ARRAY_BUFFER, BindBuffer, BufferData, BindVertexArray, BufferSubData, Clear, ClearColor, COLOR_BUFFER_BIT, DrawArrays, EnableVertexAttribArray, FALSE, FLOAT, GenBuffers, GenVertexArrays, STREAM_DRAW, TRIANGLES, UseProgram, VertexAttribPointer, Viewport};
+use gl::{ARRAY_BUFFER, BindBuffer, BufferData, BindVertexArray, BufferSubData, Clear, ClearColor, COLOR_BUFFER_BIT, DrawArrays, EnableVertexAttribArray, FALSE, FLOAT, GenBuffers, GenVertexArrays, STREAM_DRAW, TRIANGLES, Uniform1f, UseProgram, VertexAttribPointer, Viewport};
 use gl::types::{GLfloat, GLsizeiptr, GLuint};
 use glfw::Context;
 use std::ffi::c_void;
@@ -19,9 +19,9 @@ impl App {
 		eprintln!("entering main loop");
 
 		let vtx: [GLfloat; 0x9] = [
-			-0.707,-0.707, -0.707,
-			-0.707, 0.707, -0.707,
-			 0.707,-0.707, -0.707,
+			-1.0,-1.0,0.0,
+			 1.0,-1.0,0.0,
+			-1.0, 1.0,0.0,
 		];
 
 		let mut vao: GLuint = 0x0;
@@ -39,6 +39,8 @@ impl App {
 			VertexAttribPointer(0x0, 0x3, FLOAT, FALSE, (0x3*size_of::<GLfloat>()) as i32, null::<c_void>());
 			EnableVertexAttribArray(0x0);
 		}
+
+		gfx.glfw.set_time(0.0);
 
 		while !gfx.win.should_close() {
 			unsafe {
@@ -61,6 +63,9 @@ impl App {
 				BufferSubData(ARRAY_BUFFER, 0x0, size_of_val(& vtx) as GLsizeiptr, addr_of!(vtx) as *const c_void);
 
 				UseProgram(gfx.shdprg);
+
+				Uniform1f(gfx.uni,(gfx.glfw.get_time()/16.0).powf(2.0) as f32);
+
 				BindVertexArray(vao);
 				DrawArrays(TRIANGLES, 0x0, 0x3*0x1);
 			}
